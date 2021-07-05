@@ -37,4 +37,11 @@ resource "aws_security_group" "security_group" {
   }
 
   tags = local.db_security_group_tags
+
+  lifecycle {
+    ignore_changes = [
+      name,
+      description
+    ]
+  }
 }

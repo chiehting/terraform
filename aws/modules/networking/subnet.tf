@@ -21,6 +21,10 @@ resource "aws_default_subnet" "default_subnet" {
   availability_zone = var.availability_zone[count.index]
   map_public_ip_on_launch = true
   tags = var.default_tags
+
+  lifecycle {
+    ignore_changes = [availability_zone]
+  }
 }
 
 resource "aws_subnet" "public_subnet" {
@@ -30,6 +34,10 @@ resource "aws_subnet" "public_subnet" {
   availability_zone = var.availability_zone[count.index % length(var.availability_zone)]
   map_public_ip_on_launch = true
   tags = merge(local.subnet_tags, {Name="${var.tags.Name}-public"})
+
+  lifecycle {
+    ignore_changes = [availability_zone]
+  }
 }
 
 resource "aws_subnet" "private_subnet" {
@@ -38,4 +46,8 @@ resource "aws_subnet" "private_subnet" {
   cidr_block = cidrsubnet(local.vpc_cidr_block, local.cidrsubnet_newbits, count.index + length(var.availability_zone))
   availability_zone = var.availability_zone[count.index % length(var.availability_zone)]
   tags = merge(local.subnet_tags, {Name="${var.tags.Name}-private"})
+
+  lifecycle {
+    ignore_changes = [availability_zone]
+  }
 }

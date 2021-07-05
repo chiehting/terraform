@@ -1,6 +1,6 @@
 locals {
   gateway_tags = var.tags
-  internet_gateway_id = aws_internet_gateway.internet_gateway.id 
+  internet_gateway_id = aws_internet_gateway.internet_gateway.id
   vpc_peering_connection_id = aws_vpc_peering_connection.vpc_peering_connection.id
   nat_gateway_id = aws_nat_gateway.nat_gateway.id
   eip_public_ip = aws_eip.eip.public_ip
@@ -20,6 +20,10 @@ resource "aws_nat_gateway" "nat_gateway" {
   allocation_id = aws_eip.eip.id
   subnet_id = local.public_subnet_ids[0]
   tags = local.gateway_tags
+
+  lifecycle {
+    ignore_changes = [subnet_id]
+  }
 }
 
 resource "aws_vpc_peering_connection" "vpc_peering_connection" {

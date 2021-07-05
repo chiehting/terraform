@@ -1,10 +1,3 @@
-# locals {
-#   vpc_security_group_ids = flatten([
-#     for db_security_group in aws_db_security_group.db_security_group :
-#       db_security_group.id
-#   ])
-# }
-
 resource "aws_db_instance" "db_instance" {
   identifier = var.identifier
   name = var.name
@@ -21,8 +14,18 @@ resource "aws_db_instance" "db_instance" {
   db_subnet_group_name = aws_db_subnet_group.db_subnet_group.name
   vpc_security_group_ids = [aws_security_group.security_group.id]
   skip_final_snapshot = true
+  auto_minor_version_upgrade = false
   depends_on = [
     aws_db_subnet_group.db_subnet_group,
     aws_security_group.security_group
   ]
+
+  lifecycle {
+    ignore_changes = [
+      name,
+      identifier,
+      performance_insights_enabled,
+      storage_encrypted
+    ]
+  }
 }

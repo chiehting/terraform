@@ -29,4 +29,11 @@ resource "aws_security_group" "security_group" {
   }
 
   tags = local.elasticache_security_group_tags
+
+  lifecycle {
+    ignore_changes = [
+      description,
+      name
+    ]
+  }
 }

@@ -11,4 +11,11 @@ resource "aws_elasticache_cluster" "elasticache_cluster" {
     aws_elasticache_subnet_group.elasticache_subnet_group,
     aws_security_group.security_group
   ]
+
+  lifecycle {
+    ignore_changes = [
+      cluster_id,
+      subnet_group_name
+    ]
+  }
 }

@@ -17,4 +17,10 @@ resource "aws_eks_cluster" "cluster" {
     endpoint_private_access = true
     endpoint_public_access = true
   }
+
+  lifecycle {
+    ignore_changes = [
+      vpc_config["security_group_ids"]
+    ]
+  }
 }

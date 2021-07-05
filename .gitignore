@@ -26,5 +26,6 @@
 # terraform package
 **/.terraform/providers
 .terraform.lock.hcl
-
+*.tfstate
+*.tfstate.backup
 

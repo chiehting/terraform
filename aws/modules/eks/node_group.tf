@@ -16,6 +16,8 @@ resource "aws_eks_node_group" "node_group" {
 
   lifecycle {
     ignore_changes = [
+      node_group_name,
+      remote_access,
       scaling_config
     ]
   }
